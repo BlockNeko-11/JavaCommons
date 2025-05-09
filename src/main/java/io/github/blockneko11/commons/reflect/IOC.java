@@ -12,7 +12,7 @@ public final class IOC {
     /**
      * 实例缓存。
      */
-    private static final Map<Class<?>, Object> INSTANCES;
+    private final Map<Class<?>, Object> instances;
 
     /**
      * 获取实例。
@@ -20,9 +20,9 @@ public final class IOC {
      * @return 实例
      * @param <T> 实例类型
      */
-    public static <T> T getInstance(Class<T> clazz) {
+    public <T> T getInstance(Class<T> clazz) {
         if (hasInstance(clazz)) {
-            return (T) INSTANCES.get(clazz);
+            return (T) this.instances.get(clazz);
         }
 
         T instance = ConstructorUtils.newInstance(clazz);
@@ -40,8 +40,8 @@ public final class IOC {
      * @param instance 实例
      * @param <T> 实例类型
      */
-    public static <T> void registerInstance(Class<T> clazz, T instance) {
-        INSTANCES.put(clazz, instance);
+    public <T> void registerInstance(Class<T> clazz, T instance) {
+        this.instances.put(clazz, instance);
     }
 
     /**
@@ -49,15 +49,15 @@ public final class IOC {
      * @param clazz 类
      * @return 是否存在实例
      */
-    public static boolean hasInstance(Class<?> clazz) {
-        return INSTANCES.containsKey(clazz);
+    public boolean hasInstance(Class<?> clazz) {
+        return this.instances.containsKey(clazz);
     }
 
-    private IOC() {
-        throw new UnsupportedOperationException();
-    }
-
-    static {
-        INSTANCES = Collections.synchronizedMap(new HashMap<>());
+    /**
+     * 创建 IOC 容器。
+     * @since 0.1.1
+     */
+    public IOC() {
+        this.instances = Collections.synchronizedMap(new HashMap<>());
     }
 }
