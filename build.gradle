@@ -56,7 +56,6 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.withType(Javadoc).configureEach {
     options.encoding = "UTF-8"
-    options.charset = "UTF-8"
 }
 
 tasks.withType(Test).configureEach { tsk ->
